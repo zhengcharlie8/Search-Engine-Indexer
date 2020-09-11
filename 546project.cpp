@@ -5,7 +5,7 @@
 #include <unordered_map>
 using namespace std;
 
-    stringbuf encode(vector<int> input) {
+    stringbuf encode(vector<unsigned char> input) {
         stringbuf output;
     for (int i : input) {
         while (i >= 128) {
@@ -18,8 +18,8 @@ using namespace std;
         }
     return output;
     }
-    vector<char> decode(vector<char> input) {
-        vector<char> output;
+    vector<unsigned char> decode(vector<unsigned char> input) {
+        vector<unsigned char> output;
         for (int i = 0; i < input.size(); i++) {
             int position = 0;
             int result = ((int)input[i] & 0x7F);
@@ -32,6 +32,28 @@ using namespace std;
             output.push_back(result);
         }
         return output;
+    }
+    vector<unsigned char> delta_encode(vector<unsigned char> vec)
+    {
+        unsigned char last = 0;
+        for (int i = 0; i < vec.size(); i++)
+        {
+            unsigned char current = vec[i];
+            vec[i] = current - last;
+            last = current;
+        }
+        return vec;
+    }
+    vector<unsigned char> delta_decode(vector<unsigned char> vec)
+    {
+        unsigned int last = 0;
+        for (int i = 0; i < vec.size(); i++)
+        {
+            unsigned int  delta = vec[i];
+            vec[i] = delta + last;
+            last = vec[i];
+        }
+        return vec;
     }
     int main() {
         int i = 1;
@@ -67,9 +89,7 @@ using namespace std;
         }
         Json::StreamWriterBuilder builder;
         string stringoutput = Json::writeString(builder, res);
-        vector<int> vec;
-        vec.push_back(stringoutput[0]);
-        unsigned int last = 0;
+        vector<unsigned char> vec;
         for (int i = 0; i < stringoutput.size(); i++)
         {
             vec.push_back(stringoutput[i]);
@@ -77,17 +97,17 @@ using namespace std;
         if (!test)
             output << stringoutput;
         else {
-            vector<char> vec2;
+            vector<unsigned char> vec2;
+            vec = delta_encode(vec);
             string encoded = encode(vec).str();
-            vec2.push_back(encoded[0]);
-            unsigned char last2 = 0;
             for (int i = 0; i < encoded.size(); i++)
             {
                 vec2.push_back(encoded[i]);
             }
-            vector<char> test3 = decode(vec2);
+            vector<unsigned char> test3 = decode(vec2);
+            test3 = delta_decode(test3);
             string hi = "";
-            for (int i = 0; i < encoded.size(); i++)
+            for (int i = 0; i < test3.size(); i++)
             {
                 hi += test3[i];
             }
