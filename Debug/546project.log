@@ -1,0 +1,7 @@
+﻿  546project.cpp
+C:\Users\Charlie\source\repos\546project\546project\546project.cpp(23,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Charlie\source\repos\546project\546project\546project.cpp(62,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Charlie\source\repos\546project\546project\546project.cpp(73,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Charlie\source\repos\546project\546project\546project.cpp(84,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Charlie\source\repos\546project\546project\546project.cpp(90,31): warning C4018: '<': signed/unsigned mismatch
+  546project.vcxproj -> C:\Users\Charlie\source\repos\546project\Debug\546project.exe
